@@ -172,8 +172,8 @@ function fetchPlayList() {
                         <th scope="row">${playlistDB.indexOf(music)}</th>
                         <td>${music.title}</td>
                         
-                        <td><button onClick="playMusic(${music.id})"  id= "bttn" ><img src="/CS445MapFinalProject/images/Unknown.png" id="minussign"></button>
-                         <button onClick="removeList(${music.songId})"  id= "btnn" ><img src="/CS445MapFinalProject/images/music.png" id="playmusic"></button>  </td>
+                        <td><button onClick="removeList('${music.songId}')"  id= "bttn" ><img src="/CS445MapFinalProject/images/Unknown.png" id="minussign"></button>
+                         <button onClick="playMusic('${music.songId}')" id= "btnn" data-music="${music.songId}" ><img src="/CS445MapFinalProject/images/music.png" id="playmusic"></button>  </td>
                `;
             });
 
@@ -244,10 +244,10 @@ function addToPlayList(id) {
          <th scope="row">${playlistDB.indexOf(music) + 1}</th>
       <td>${music.title}</td>                              
          <td><button id="bttn"
-           onclick = "playMusic(${music.id})"><img src="/CS445MapFinalProject/images/Unknown.png" id="minussign"                                 
+           onclick = "playMusic(${urlPath})"><img src="/CS445MapFinalProject/images/Unknown.png" id="minussign"                                 
          </button>
        <button id="btnn"
-               onclick = "removeList(${music.id})"><img src="/CS445MapFinalProject/images/music.png" id="playmusic">                                  
+               onclick = "removeList(${music.songId})"><img src="/CS445MapFinalProject/images/music.png" id="playmusic">                                  
                </button>
               
                </td>
@@ -259,34 +259,82 @@ function addToPlayList(id) {
         })
 }
 
-
-
-
-
-function removeList(songId) {
-    console.log("id number", songId)
-    console.log("button", document.getElementById('btn'))
-
+function removeList(songId,title){
+    console.log("in title",title);
+//console.log("in id", songId)
+//document.getElementById('playlist').innerHTML='';
     fetch(`${SERVER_ROOT}/api/playlist/remove`, {
-        method: 'DELETE',
+        method: 'POST',
         body: JSON.stringify({
-            songId: id
+            songId: songId
         }),
         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-
+            
+            'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+            'Content-Type': 'application/json'
         }
-    }).then(response => {
-       return response.json()})
-       .then(data=>{
-           console.log(data);
-       })
         
-      document.getElementById('playlist').innerHTML = "DELETE SCUSSFUL";
+    }).then(response => response.json())
+        .then(musics => {//musics
+            console.log(musics.length)
+            //console.log(musics, "in musics")
+            let count = -1;
+            musics.forEach(music => {
+
+                count++
+
+               if(music.title !==title){
+
+                   console.log("fn", music)
+
+                   console.log(musics.length)
+
+                   if(removeArr.indexOf(music) === -1){
+
+                       removeArr.push(music)
+
+                   }
+
+                    html += `<tr>
+         <th scope="row">${playlistDB.indexOf(music) + 1}</th>
+      <td>${music.title}</td>                              
+         <td><button id="bttn"
+           onclick = "playMusic(${path})"><img src="/CS445MapFinalProject/images/Unknown.png" id="minussign"                                 
+         </button>
+       <button id="btnn"
+               onclick = "removeList(${music.songId})"><img src="/CS445MapFinalProject/images/music.png" id="playmusic">                                  
+               </button>
+              
+               </td>
+      </tr>`;
+      document.getElementById('playlist').innerHTML  = html;
 
                 }
-            
+            })
+        })
+}
+
+
+
+ function playMusic(path){
+     console.log(path,"in play")
+     let audio=document.getElementsByTagName("audio")[0];
+     audio.setAttribute("src",`${SERVER_ROOT}/${path}`)
+     document.getElementsByTagName("p")[0].innerHTML=`playing${path}`
+     console.log(audio.src,"checking")
+ }
+    
+
+
+
+
+
+
+
+
+
+
+
         
 
 
