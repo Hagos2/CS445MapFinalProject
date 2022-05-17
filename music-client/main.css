@@ -1,0 +1,95 @@
+.container {
+    margin-top: 10px;
+    display: flex;
+    
+}
+body{
+    background-color:antiquewhite;
+}
+
+#header {
+    display: flex;
+    /* justify-content: space-between; */
+    justify-content: space-around;
+}
+img{
+    justify-content: flex-start;
+    margin-right: 500px;
+}
+#header #right {
+    width: 650px;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 60px;
+}
+#header #left{
+   display: flex; 
+   justify-content: flex-start;
+}
+#header #search {
+    display: none;
+}
+
+#header #logout-div {
+    display: none;
+}
+
+#errormessage {
+    color: red;
+}
+#content{
+    display:grid;
+    justify-content: center;
+    color:black;
+    
+}
+#minussign{
+    width: 20px;
+    height: 20px;
+}
+
+#playmusic{
+    width: 20px;
+    height: 20px;
+}
+#btn{
+    width: 30px;
+    height: 30px; 
+}
+
+#bttn{
+    width: 30px;
+    height: 30px; 
+}
+#btnn{
+    width: 30px;
+    height: 30px; 
+}
+
+#player{
+    width: 100%;
+    color:aqua;
+    background-color: black;
+}
+
+
+#mg{
+    width: 20px;
+    height: 20px;
+}
+#bn{
+    width: 30px;
+    height: 30px; 
+}
+#img{
+    width: 20px;
+    height: 20px;
+}
+#horse{
+    width: 300%;
+
+
+}
+#mp{
+    width: 300%;
+}
